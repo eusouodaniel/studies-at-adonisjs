@@ -1,12 +1,12 @@
 'use strict'
 
-const User = use('App/Models/User')
+const UserService = use('App/Services/UserService')
 
 class UserController {
   async store ({ request }) {
     const data = request.only(['username', 'email', 'password'])
 
-    const user = await User.create(data)
+    const user = await UserService.create(data)
 
     return user
   }
