@@ -1,6 +1,7 @@
 'use strict'
 
 const crypto = require('crypto')
+const moment = require('moment')
 const Mail = use('Mail')
 const User = use('App/Models/User')
 
@@ -23,6 +24,24 @@ class ForgotPasswordService {
             .subject("Recuperação de senha")
         }
       )
+  }
+
+  async update (data) {
+    await User.findByOrFail(data.token);
+
+    const tokenExpired = moment()
+      .subtrack('2','days')
+      .isAfter(user.token_created_at)
+
+    if (tokenExpired) {
+      return 401
+    }
+
+    user.token = null
+    user.token_created_at = null
+    user.password = password
+
+    await user.save()
   }
 }
 
