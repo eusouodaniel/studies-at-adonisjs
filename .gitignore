@@ -3,3 +3,5 @@ tmp
 .env
 database/*.sqlite
 *.log
+*.lock
+package-lock.json
